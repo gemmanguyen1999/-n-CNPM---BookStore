@@ -1,0 +1,89 @@
+﻿
+@using BeYeuBookstore.Utilities.Constants
+@using Microsoft.AspNetCore.Authorization
+@using BeYeuBookstore.Authorization
+@inject IAuthorizationService AuthorizationService
+@{
+    //kiểm tra quyền tạo đối với nut create cho hiểu thị nut
+    var result_edit = await AuthorizationService.AuthorizeAsync(User, Const_FunctionId.AllowedVacation, Operations.Create);
+    //kiểm tra quyền tạo đối với nut delete cho hiểu thị nut
+    var result_delete = await AuthorizationService.AuthorizeAsync(User, Const_FunctionId.AllowedVacation, Operations.Delete);
+    //kiểm tra quyền tạo đối với nut update cho hiểu thị nut
+    var result_create = await AuthorizationService.AuthorizeAsync(User, Const_FunctionId.AllowedVacation, Operations.Update);
+    //kiểm tra quyền tạo đối với nut delete cho hiểu thị nut
+    var result_confirm = await AuthorizationService.AuthorizeAsync(User, Const_FunctionId.AllowedVacation, Operations.Confirm);
+}
+<div id="modal-add-edit" class="bootbox modal fade modal-darkorange in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="">Xem</h4>
+            </div>
+            <div class="modal-body">
+                <div id="horizontal-form">
+                    <form class="form-horizontal" role="form" id="frmMaintainance">
+                        <div class="form-group row">
+                            <label for="txtId" class="col-sm-2 col-form-label">Mã hóa đơn</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtId" readonly />
+                            </div>
+                            <label for="txtCustomer" class="col-sm-2 col-form-label">Khách hàng</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtCustomer" readonly />
+                            </div>
+                            <div class="hidden">
+                                <input type="text" class="form-control" id="txtCustomerId" readonly />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="dtDateCreated" class="col-sm-2 col-form-label">Ngày tạo</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="dtDateCreated" readonly />
+                            </div>
+                            <label for="txtTotalPrice" class="col-sm-2 col-form-label">Tổng tiền</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="txtTotalPrice" readonly />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <h4>Chi tiết hóa đơn</h4>
+                        </div>
+
+                        <div class="form-group row">
+                            <table class="table table-striped table-bordered table-fix-header">
+                                <thead>
+                                    <tr>
+                                        <th width="7%">Mã hóa đơn</th>
+                                        <th width="10%">Sản phẩm</th>
+                                        <th width="10%">Số lượng</th>
+                                        <th width="10%">Đơn giá (VNĐ)</th>
+                                        <th width="20%">Thành tiền (VNĐ)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="InvoiceDetail-tbl-content"></tbody>
+                            </table>
+                        </div>
+
+                        
+
+                    </form>
+                </div>
+            </div>
+          
+        </div>
+
+    </div>
+</div>
+<script id="InvoiceDetail-table-template" type="x-tmpl-mustache">
+    <tr>
+        <td>{{InvoiceId}}</td>
+        <td>{{BookName}}</td>
+        <td>{{Qty}}</td>
+        <td>{{UnitPrice}}</td>
+        <td>{{Price}}</td>
+    </tr>
+</script>
